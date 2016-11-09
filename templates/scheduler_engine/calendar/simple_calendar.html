@@ -1,0 +1,62 @@
+{% extends 'base_wordpress_north.html' %}
+{% load staticfiles %}
+{% block specific-css %}
+    <link rel="stylesheet" href="{% static 'scheduler_engine/vendor/fullcalendar/fullcalendar.min.css' %}"/>
+{% endblock %}
+{% block content %}
+    <div class="container" style="margin-top: 150px;">
+
+        <div id='calendar'></div>
+    </div>
+
+
+{% endblock %}
+{% block specific-js %}
+    <script type="application/javascript" src="{% static 'scheduler_engine/vendor/fullcalendar/lib/moment.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'scheduler_engine/vendor/fullcalendar/fullcalendar.min.js' %}"></script>
+    <script type="application/javascript">
+        jQuery(document).ready(function()
+        {
+            jQuery('#calendar').fullCalendar({
+                locale: "es",
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+                nowIndicator: true,
+                buttonIcons: false, // show the prev/next text
+                weekNumbers: true,
+                navLinks: true, // can click day/week names to navigate views
+                editable: false,
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    {% for event in events %}
+                        {
+                            title: "{{ event.name }}",
+                            start: "{{ event.start|date:"Y-m-d" }}T{{ event.start|date:"H:i:s" }}",
+                            end: "{{ event.end|date:"Y-m-d" }}T{{ event.end|date:"H:i:s" }}",
+                        {% if event.color %}
+                            color: "{{ event.color }}"
+                        {% endif %}
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function(calEvent, jsEvent, view)
+                {
+
+                    alert(
+                            calEvent.title + ": \n" +
+                            moment(new Date(calEvent.start)).format("YYYY-MM-DD HH:mm") + "-" +
+                            moment(new Date(calEvent.end)).format("YYYY-MM-DD HH:mm")
+                    );
+
+                    // change the border color just for fun
+                    jQuery(this).css('border-color', 'red');
+
+                }
+            });
+
+        })
+    </script>
+{% endblock %}
