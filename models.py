@@ -20,6 +20,7 @@ class Event(base_models.FullSlugBaseModel):
     accepted_invitations = models.PositiveIntegerField(default=0)
     unaccepted_invitations = models.PositiveIntegerField(default=0)
 
+
 class InvitationStatus(base_models.FullBaseModel):
     """
     Invitation Status Model, First Fixture should populate this model with Invited, Accepted, Declined, Unactive, Pending
