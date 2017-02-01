@@ -36,7 +36,10 @@
                             start: "{{ event.start|date:"Y-m-d" }}T{{ event.start|date:"H:i:s" }}",
                             end: "{{ event.end|date:"Y-m-d" }}T{{ event.end|date:"H:i:s" }}",
                         {% if event.color %}
-                            color: "{{ event.color }}"
+                            color: "{{ event.color }}",
+                        {% endif %}
+                        {% if event.url %}
+                            url: "{{ event.url }}",
                         {% endif %}
                         },
                     {% endfor %}
@@ -44,11 +47,11 @@
                 eventClick: function(calEvent, jsEvent, view)
                 {
 
-                    alert(
-                            calEvent.title + ": \n" +
-                            moment(new Date(calEvent.start)).format("YYYY-MM-DD HH:mm") + "-" +
-                            moment(new Date(calEvent.end)).format("YYYY-MM-DD HH:mm")
-                    );
+{#                    alert(#}
+{#                            calEvent.title + ": \n" +#}
+{#                            moment(new Date(calEvent.start)).format("YYYY-MM-DD HH:mm") + "-" +#}
+{#                            moment(new Date(calEvent.end)).format("YYYY-MM-DD HH:mm")#}
+{#                    );#}
 
                     // change the border color just for fun
                     jQuery(this).css('border-color', 'red');
