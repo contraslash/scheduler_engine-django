@@ -17,14 +17,14 @@
                 buttonIcons: false, // show the prev/next text
                 weekNumbers: false,
                 navLinks: true, // can click day/week names to navigate views
-                editable: false,
-                eventLimit: true, // allow "more" link when too many events
+                editable: true,
+                eventLimit: false, // allow "more" link when too many events
                 minTime: "08:00:00",
                 maxTime: "22:00:00",
 {#                hiddenDays: [6,0],#}
                 businessHours: [ // specify an array instead
                     {
-{#                        dow: [ 1, 2, 3, 4, 5 ], // Monday, Tuesday, Wednesday#}
+                        dow: [ 1, 2, 3, 4, 5, 6, 0 ], // Monday, Tuesday, Wednesday
                         start: '08:00', // 8am
                         end: '22:00' // 6pm
                     }
@@ -47,6 +47,7 @@
                 eventClick: function(calEvent, jsEvent, view)
                 {
 
+
 {#                    alert(#}
 {#                            calEvent.title + ": \n" +#}
 {#                            moment(new Date(calEvent.start)).format("YYYY-MM-DD HH:mm") + "-" +#}
@@ -56,7 +57,27 @@
                     // change the border color just for fun
                     jQuery(this).css('border-color', 'red');
 
-                }
+                },
+                selectable: true,
+                select: function(start, end) {
+
+
+                    var formated_data = moment.utc(new Date(start)).format("YYYY-MM-DD HH:mm");
+                    console.log(moment()<start);
+                    if(moment()<start)
+                    {
+                        if (schedule_location)
+                        {
+    				        location.href = schedule_location()+"?start="+formated_data;
+                        }
+                    }
+                    else
+                    {
+                        alert("No puede agendar una tutoría en el pasado");
+                    }
+
+			    }
+
             });
 
         })
